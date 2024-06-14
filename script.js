@@ -483,15 +483,26 @@ const tshirtWomen = [
     },
 ];
 
-
-
+let products = [...earbuds, ...shoes, ...tshirtWomen, ...tshirts]
+let cartArr = []
 let renderProducts = (wrapper, data, num = 4) => {
     wrapper.innerHTML = data.slice(0, num).map((x) => {
         return `<div class="product">
         <img src="${x.img}" alt="">
         <h2>${x.title}</h2>
         <h3><del>₹${x.price}</del> <span>₹${x.price}</span></h3>
-        <button>Add To cart</button>
+        <button onclick='AddToCart(${x.id})'>Add To cart</button>
+    </div>`
+    }).join('')
+
+}
+let renderCart = () => {
+    cartWrapper.innerHTML = cartArr.map((x) => {
+        return `<div class="product">
+        <img src="${x.img}" alt="">
+        <h2>${x.title}</h2>
+        <h3><del>₹${x.price}</del> <span>₹${x.price}</span></h3>
+        <i onclick='Remove(${x.id})' class='fa-solid fa-x'></i>
     </div>`
     }).join('')
 
@@ -501,4 +512,22 @@ renderProducts(shoesWrapper, shoes)
 
 const cartToggle = () => {
     cartElem.classList.toggle('active')
+}
+const AddToCart = (id) => {
+    let product = products.find((x) => x.id == id)
+    cartArr.push(product)
+
+    renderCart()
+
+}
+const Remove = (id) => {
+    // let index = cartArr.findIndex((x) => x.id == id)
+    // cartArr.splice(index, 1)
+
+    let newCart = cartArr.filter((x) => x.id != id)
+    cartArr = newCart
+    renderCart()
+
+
+
 }
